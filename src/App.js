@@ -15,7 +15,6 @@ const App = () => {
   const blogFormRef = useRef()
   useEffect(() => {
     blogService.getAll().then(blogs => {
-      blogs.sort((a , b) => b.likes - a.likes)
       setBlogs( blogs )
     }
     )
@@ -80,6 +79,8 @@ const App = () => {
       <LoginForm  login = {handleLogin} notifyMessage = {notifyMessage} />
     </Togglable>
   )
+
+  const byLikes = (b1, b2) => b2.likes - b1.likes
   return (
     <div>
       <h2>Blog App</h2>
@@ -89,7 +90,7 @@ const App = () => {
         <p>{user.name} logged in</p>
         <button type = 'submit' id = 'logout' onClick = {handleLogout}>Logout</button>
         {blogForm()}
-        {blogs.map(blog => (
+        {blogs.sort(byLikes).map(blog => (
           <Blog key={blog.id} blog={blog} userId = {user.id} increaseLike = {handleLike} handleDelete = {handleDelete} />
         ))}
       </div>}
