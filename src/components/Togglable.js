@@ -1,14 +1,18 @@
-import React, { useState, useImperativeHandle } from 'react'
+import React, { useImperativeHandle } from 'react'
 import PropTypes from 'prop-types'
+import { Button } from 'react-bootstrap'
+import { useSelector, useDispatch } from 'react-redux'
+import { toggleChange } from '../reducers/toggleFilterReducer'
 
 const Togglable = React.forwardRef((props, ref) => {
-  const [visible, setVisible] = useState(false)
+  const visible = useSelector(state => state.filter)
+  const dispatch = useDispatch()
 
   const hideWhenVisible = { display : visible ? 'none' : '' }
   const showWhenVisible = { display : visible ? '' : 'none' }
 
   const toggleVisibility = () => {
-    setVisible(!visible)
+    dispatch(toggleChange(visible))
   }
 
   useImperativeHandle(ref,() => {
@@ -18,11 +22,11 @@ const Togglable = React.forwardRef((props, ref) => {
   return(
     <div>
       <div style = {hideWhenVisible}>
-        <button onClick = {toggleVisibility}>{props.buttonLabel}</button>
+        <Button variant = 'primary' onClick = {toggleVisibility}>{props.buttonLabel}</Button>
       </div>
       <div style = {showWhenVisible}>
         {props.children}
-        <button onClick = {toggleVisibility}>Cancel</button>
+        <Button variant = 'secondary' onClick = {toggleVisibility}>Cancel</Button>
       </div>
     </div>
   )

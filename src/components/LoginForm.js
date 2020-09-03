@@ -1,35 +1,36 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Notification from './Notification'
 import PropTypes from 'prop-types'
+import { Form, Button } from 'react-bootstrap'
 
 const LoginForm = ({ login, notifyMessage }) => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-
+  
   const handleLogin = (event) => {
     event.preventDefault()
     login({
-      username: username,
-      password: password
+      username: event.target.username.value,
+      password: event.target.password.value
     })
-    setUsername('')
-    setPassword('')
+    event.target.username.value = ''
+    event.target.password.value = ''
   }
   return (
     <div>
       <h2>Log in to application</h2>
       <Notification id = 'message' message = {notifyMessage} />
-      <form onSubmit = {handleLogin}>
+      <Form onSubmit = {handleLogin}>
+        <Form.Group>
         <div>
-                Username
-          <input type = 'text' id = 'username' value = {username} name = 'username' onChange = {({ target }) => {setUsername(target.value)}} />
+          <Form.Label>Username</Form.Label>
+          <Form.Control type = 'text' id = 'username' name = 'username' />
         </div>
         <div>
-                Password
-          <input type = 'password' id = 'password' value = {password} name = 'password' onChange = {({ target }) => {setPassword(target.value)}} />
+          <Form.Label>Password</Form.Label>     
+          <Form.Control type = 'password' id = 'password' name = 'password' />
         </div>
-        <button id = 'login' type = 'submit'>Login</button>
-      </form>
+        <Button variant = 'primary' id = 'login' type = 'submit'>Login</Button>
+        </Form.Group>
+      </Form>
     </div>
   )
 }

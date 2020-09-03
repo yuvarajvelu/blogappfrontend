@@ -1,29 +1,14 @@
 import React from 'react'
+import { Alert } from 'react-bootstrap'
 
-const Notification = ({message}) => {
-    const notificationOkStyle = {
-        color: 'green',
-        borderStyle : 'solid',
-        borderRadius : 5,
-        padding : 10,
-        fontSize : 20,
-        background: 'lightgrey'
-    }
-    const notificationErrorStyle = {
-        color: 'red',
-        borderStyle : 'solid',
-        borderRadius : 5,
-        padding : 10,
-        fontSize : 20,
-        background: 'lightgrey'
-    }
-    
+const Notification = ({message}) => {    
     if(message === null) {
         return null;
     } else {
         return (
-            <div style = {message.search(/Wrong/) !== -1 ?notificationErrorStyle: notificationOkStyle}>
-                {message}
+            <div>
+                {message.search(/Wrong/) !== -1 && <Alert variant = 'danger'>{message}</Alert>}
+                {message.search(/Wrong/) === -1 && <Alert variant = 'success'>{message}</Alert>}
             </div>
         )
     }
